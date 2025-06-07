@@ -75,5 +75,6 @@ export const PostCard: React.FC<PostCardProps> = ({
           </div>
         </div>
       </motion.article>
+    </Link>
   );
 }; 
