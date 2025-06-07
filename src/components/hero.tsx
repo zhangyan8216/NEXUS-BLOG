@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
+import { Hero3D } from "./hero-3d";
 
 export function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -48,15 +49,18 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <motion.h1
-            className="font-geist mb-6 text-6xl md:text-7xl font-bold tracking-tight"
-            animate={{ scale: [1, 1.02, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-white via-emerald-300 to-white bg-[length:200%_100%] animate-gradient">
-              NEXUS BLOG
-            </span>
-          </motion.h1>
+          <div className="relative h-[200px] md:h-[250px] mb-6">
+            <Hero3D />
+            <motion.h1
+              className="font-geist absolute top-0 left-0 w-full h-full flex items-center justify-center text-6xl md:text-7xl font-bold tracking-tight opacity-70 pointer-events-none"
+              animate={{ scale: [1, 1.02, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-white via-emerald-300 to-white bg-[length:200%_100%] animate-gradient">
+                NEXUS BLOG
+              </span>
+            </motion.h1>
+          </div>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

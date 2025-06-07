@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Comments } from "@/components/comments";
+import { AIRecommendation } from "@/components/ai-recommendation";
 
 // 模拟文章数据
 const posts = [
@@ -248,7 +249,12 @@ export default async function PostDetail({ params }: Props) {
         </div>
       </article>
 
-      <Comments />
+      <div className="mt-16 grid gap-16 lg:grid-cols-[1fr,300px]">
+        <Comments postId={post.id.toString()} />
+        <div className="space-y-16">
+          <AIRecommendation postId={post.id.toString()} />
+        </div>
+      </div>
     </main>
   );
 } 

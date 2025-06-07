@@ -1,31 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-
-// 模拟评论数据
-const initialComments = [
-  {
-    id: 1,
-    content: "这篇文章写得很好，对我帮助很大！",
-    author: {
-      name: "张三",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
-    },
-    date: "2024-03-15T10:30:00Z",
-  },
-  {
-    id: 2,
-    content: "感谢分享，学到了很多新知识。",
-    author: {
-      name: "李四",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
-    },
-    date: "2024-03-15T11:45:00Z",
-  },
-];
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Comment {
   id: number;
@@ -37,10 +16,57 @@ interface Comment {
   date: string;
 }
 
-export function Comments() {
-  const [comments, setComments] = useState<Comment[]>(initialComments);
+interface CommentsProps {
+  postId: string;
+}
+
+export function Comments({ postId }: CommentsProps) {
+  const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      setLoading(true);
+      try {
+        // 模拟 API 调用获取评论
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // 模拟评论数据
+        const mockComments = [
+          {
+            id: 1,
+            content: "这篇文章写得很好，对我帮助很大！",
+            author: {
+              name: "张三",
+              avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
+            },
+            date: "2024-03-15T10:30:00Z",
+          },
+          {
+            id: 2,
+            content: "感谢分享，学到了很多新知识。",
+            author: {
+              name: "李四",
+              avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
+            },
+            date: "2024-03-15T11:45:00Z",
+          },
+        ];
+        
+        setComments(mockComments);
+      } catch (error) {
+        console.error("Failed to fetch comments:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (postId) {
+      fetchComments();
+    }
+  }, [postId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,6 +95,30 @@ export function Comments() {
       setIsSubmitting(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="mt-16 space-y-8">
+        <h2 className="text-2xl font-bold mb-8">评论</h2>
+        <div className="space-y-4">
+          <Skeleton className="h-24 w-full" />
+          <Skeleton className="h-10 w-32" />
+        </div>
+        <div className="space-y-8">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="flex gap-4">
+              <Skeleton className="w-10 h-10 rounded-full" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-4 w-1/3" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-2/3" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mt-16">
@@ -117,4 +167,4 @@ export function Comments() {
       </div>
     </div>
   );
-} 
+}
